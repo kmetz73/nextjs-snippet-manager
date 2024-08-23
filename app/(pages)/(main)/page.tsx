@@ -1,3 +1,8 @@
 export default function MainPage(p: {}) {
-  return <>Main Page that should be protected</>;
+  return (
+    <div>
+      Main Page that should be protected
+      <div>This page is not protected</div>
+    </div>
+  );
 }
