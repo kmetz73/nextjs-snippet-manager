@@ -1,3 +1,11 @@
-export default function TechnologyPage(p: { params: { technology: string } }) {
-  return <div>{p.params.technology}</div>;
+import { SnippetSearch } from '@/app/components/SnippetSearch/SnippetsSearch';
+
+export default function TechnologyPage(p: {}) {
+  return (
+    <div>
+      <SnippetSearch
+        placeholder={`Search your ${p.params.technology} snippets`}
+      />
+    </div>
+  );
 }
