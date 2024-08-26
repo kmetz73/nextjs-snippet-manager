@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["nextjs", "Signin", "Signup", "trpc"]
+  "cSpell.words": ["nextjs", "Signin", "Signup", "trpc"],
+  "WillLuke.nextjs.addTypesOnSave": true,
+  "WillLuke.nextjs.hasPrompted": true
 }
