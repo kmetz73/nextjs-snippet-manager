@@ -1,18 +1,28 @@
 import { db } from '@/app/lib/db';
+import { auth } from '@clerk/nextjs/server';
 import { Language, Snippet, Technology } from '@prisma/client';
 import { z } from 'zod';
 
 // zod schema  for filtering posts/snippet
 
-const readAllSnippetSchema = z.object({
-  title: z.string().optional(),
-  content: z.string().optional(),
-  language: z.nativeEnum(Language).optional(),
-  technology: z.nativeEnum(Technology).optional(),
-});
+const readAllSnippetSchema = z
+  .object({
+    title: z.string().optional(),
+    content: z.string().optional(),
+    language: z.nativeEnum(Language).optional(),
+    technology: z.nativeEnum(Technology).optional(),
+  })
+  .optional();
 
 // to  Get All posts/snippet
-export async function readAllSnippet(filters: Partial<Snippet>) {
+export async function readAllSnippet(filters?: Partial<Snippet>) {
+  if (!auth().userId) {
+    return {
+      error: true,
+      status: 401,
+      message: 'You Must be signed in',
+    };
+  }
   try {
     readAllSnippetSchema.parse(filters);
     return await db.snippet.findMany({
@@ -40,6 +50,13 @@ const createSnippetSchema = z.object({
 
 // Create a new post/snippet
 export async function createSnippet(body: Omit<Snippet, 'id'>) {
+  if (!auth().userId) {
+    return {
+      error: true,
+      status: 401,
+      message: 'You Must be signed in',
+    };
+  }
   try {
     createSnippetSchema.parse(body);
     return await db.snippet.create({ data: body });

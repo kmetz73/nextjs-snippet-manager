@@ -1,4 +1,5 @@
 import { db } from '@/app/lib/db';
+import { auth } from '@clerk/nextjs/server';
 import { Language, Snippet, Technology } from '@prisma/client';
 import { z } from 'zod';
 
@@ -17,6 +18,13 @@ export async function updateSnippet(
   id: number,
   body: Partial<Omit<Snippet, 'id'>>
 ) {
+  if (!auth().userId) {
+    return {
+      error: true,
+      status: 401,
+      message: 'You Must be signed in',
+    };
+  }
   try {
     updateSnippetSchema.parse(body);
     return await db.snippet.update({ data: body, where: { id } });
@@ -36,6 +44,13 @@ const deleteSnippetSchema = z.number();
 
 //delete snippet by id
 export async function deleteSnippet(id: number) {
+  if (!auth().userId) {
+    return {
+      error: true,
+      status: 401,
+      message: 'You Must be signed in',
+    };
+  }
   try {
     deleteSnippetSchema.parse(id);
     return await db.snippet.delete({ where: { id } });
