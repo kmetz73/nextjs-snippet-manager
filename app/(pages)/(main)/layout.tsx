@@ -1,7 +1,11 @@
 import { Header } from '@/app/components/Header/Header';
 import { Nav } from '@/app/components/Nav/Nav';
 
-export default function MainLayout({ children }) {
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <Header />

@@ -1,22 +1,10 @@
-import { SnippetCard } from '@/app/components/SnippetCard/SnippetCard';
+import { readAllSnippet } from '@/app/api/snippet/Service';
 import { SnippetSearch } from '@/app/components/SnippetSearch/SnippetsSearch';
 
 // simple way to  fetch data from Data Base
-export default function MainPage(p: {}) {
-  // const snippets = await readAllSnippet();
+export default async function MainPage(p: {}) {
+  const { data: snippets } = await readAllSnippet();
   return (
-    <div className="">
-      <SnippetSearch placeholder={`Search your  snippets`} />
-      <SnippetCard
-        snippet={{
-          content: 'blbla',
-          id: 1,
-          language: 'python',
-          technology: 'python',
-          title: 'Some title',
-          userId: '231231',
-        }}
-      />
-    </div>
+    <SnippetSearch snippets={snippets} placeholder={`Search your  snippets`} />
   );
 }
